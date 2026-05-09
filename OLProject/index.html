@@ -1,11 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web GIS Application</title>
+    <title>Modern Web GIS</title>
+
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- OpenLayers CSS -->
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
+
+    <!-- Main Header (Stay as is) -->
+    <header class="main-header">
+        <div class="logo-container">
+            <div class="logo-icon">G</div>
+            <span class="logo-text">GeoInsight</span>
+        </div>
+
+        <!-- Floating Toolbar: Basic Map Tools -->
+        <div class="map-toolbar">
+            <button class="tool-btn" id="zoomIn" title="Zoom In">+</button>
+            <button class="tool-btn" id="zoomOut" title="Zoom Out">−</button>
+            <button class="tool-btn" style="font-size: 2.5rem;" id="goto" title="Zoom To My Location">⌖</button>
+            <button class="tool-btn" title="Full Screen">⛶</button>
+            <div class="divider"></div>
+            <button class="tool-btn active" id="btn-toc" title="Table of Contents">☰</button>
+            <button class="tool-btn" id="btn-analysis" title="Analysis Tools">⚒</button>
+        </div>
+    </header>
+
+    <!-- Sidebar: Acting as the TOC (Table of Contents) -->
+    <aside class="sidebar" id="toc-panel">
+        <div class="sidebar-header">
+            <h3>TABLE OF CONTENTS</h3>
+        </div>
+        <div class="sidebar-content">
+            <!-- Layer Groups -->
+            <div class="toc-group">
+                <span class="group-title">Basemap Layers</span>
+                <div class="layer-item">
+                    <input type="checkbox" class="basemap" checked onclick="toggleBaseMap(this, 'osm')">
+                    <label for="layer1">OSM</label>
+                </div>
+                <div class="layer-item">
+                    <input type="checkbox" class="basemap" onclick="toggleBaseMap(this, 'satelite')">
+                    <label for="layer2">Satelite/ Imagery</label>
+                </div>
+                <div class="layer-item">
+                    <input type="checkbox" class="basemap" onclick="toggleBaseMap(this, 'nobasemap')">
+                    <label for="layer2">No Base</label>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Analysis Tools Panel (Hidden by default) -->
+    <div class="analysis-panel" id="analysis-panel">
+        <div class="sidebar-header">
+            <h3>MAP ANALYSIS</h3>
+        </div>
+        <div class="sidebar-content">
+            <button class="analysis-item">📏 Measure Distance</button>
+            <button class="analysis-item">📐 Area Calculation</button>
+            <button class="analysis-item">📍 Buffer Analysis</button>
+        </div>
+    </div>
+
+    <!-- Map Container -->
+    <div id="map" class="map"></div>
+
+    <script src="https://openlayers.org/en/v4.6.5/build/ol.js" type="text/javascript"></script>
     
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/map.js" type="text/javascript"></script>
 </body>
+
 </html>

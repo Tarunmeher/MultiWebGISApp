@@ -1,0 +1,271 @@
+:root {
+    --primary-blue: #2563eb;
+    --bg-glass: rgba(255, 255, 255, 0.85);
+    --border-color: rgba(226, 232, 240, 0.8);
+    --text-main: #1e293b;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    color: var(--text-main);
+}
+
+/* Map Container */
+.map {
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+}
+
+/* Header Styling */
+.main-header {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    z-index: 10;
+    display: flex;
+    gap: 15px;
+    pointer-events: none; /* Allows interacting with map behind empty space */
+}
+
+.logo-container, .search-container {
+    pointer-events: auto;
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
+
+.logo-icon {
+    background: var(--primary-blue);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.search-container {
+    width: 320px;
+}
+
+.search-container input {
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    position: absolute;
+    top: 90px;
+    left: 20px;
+    bottom: 20px;
+    width: 280px;
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-header h3 {
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #64748b;
+}
+
+.sidebar-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.layer-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.basemap{
+    cursor: pointer;
+}
+
+.sidebar-footer {
+    padding: 20px;
+}
+
+.btn-primary {
+    width: 100%;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+/* Modern Toggle Switch CSS */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+}
+
+.switch input { display: none; }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #cbd5e1;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider { background-color: var(--primary-blue); }
+input:checked + .slider:before { transform: translateX(14px); }
+
+/* Hide default OpenLayers controls for custom feel */
+.ol-zoom {
+    display: none;
+}
+
+/* Toolbar Styling */
+.map-toolbar {
+    pointer-events: auto;
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    padding: 5px;
+    gap:5px;
+    box-shadow: var(--shadow);
+}
+
+.tool-btn {
+    background: transparent;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.tool-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.tool-btn.active {
+    color: var(--primary-blue);
+    background: rgba(37, 99, 235, 0.1);
+}
+
+.divider {
+    width: 1px;
+    background: var(--border-color);
+    margin: 5px 8px;
+}
+
+/* Analysis Panel (Floating on the right) */
+.analysis-panel {
+    position: absolute;
+    top: 90px;
+    right: 20px;
+    width: 240px;
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    z-index: 10;
+    box-shadow: var(--shadow);
+    display: none; /* Toggle with JS */
+}
+
+.analysis-item {
+    width: 100%;
+    text-align: left;
+    background: white;
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.analysis-item:hover {
+    border-color: var(--primary-blue);
+    color: var(--primary-blue);
+}
+
+/* TOC Specifics */
+.toc-group {
+    margin-bottom: 20px;
+}
+
+.group-title {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
