@@ -42,7 +42,6 @@ document.getElementById("goto").addEventListener("click", function () {
   view.setZoom(initialZoom);
 });
 
-
 //Function to Toggle Basemap
 function toggleBaseMap(targetElement, type) {
   var basemapInputs = document.getElementsByClassName("basemap");
@@ -62,13 +61,38 @@ function toggleBaseMap(targetElement, type) {
 }
 
 
-//WMS Layer
-var worldBoundary = new ol.layer.Tile({
-  source: new ol.source.TileWMS({
-    url: 'http://localhost:8888/geoserver/wms',
-    params: {'LAYERS': 'ne:world'},
-    // ratio: 1,
-    serverType: 'geoserver'
-  })
-});
-map.addLayer(worldBoundary);
+
+var wmsLayers = [];
+loadWMSLayers(layerConfig.wmsLayers);
+function loadWMSLayers(wmsLayerInfo) {
+  wmsLayerInfo.forEach((element) => {
+    const layer = new ol.layer.Tile({
+      source: new ol.source.TileWMS({
+        url: layerConfig.wmsURL,
+        params: { LAYERS: element.layerName },
+        serverType: "geoserver",
+      }),
+    });
+    map.addLayer(layer);
+    wmsLayers.push(layer);
+
+    const parentDiv = document.createElement("div");
+    parentDiv.classList.add("layer-item")
+    const inputElement = document.createElement("input");
+    inputElement.type="checkbox";
+    inputElement.checked = element.visible;
+    inputElement.addEventListener("change", function(){      
+      if(this.checked){
+        layer.setVisible(true);
+      }else{
+        layer.setVisible(false);
+      }
+    });
+    const label = document.createElement("label");
+    label.innerHTML = element.layerTitle;
+    parentDiv.appendChild(inputElement);
+    parentDiv.appendChild(label);
+    document.getElementById(element.groupName).appendChild(parentDiv);
+  });
+}
+

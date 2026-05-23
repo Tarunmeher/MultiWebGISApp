@@ -269,3 +269,69 @@ input:checked + .slider:before { transform: translateX(14px); }
     margin-bottom: 10px;
     text-transform: uppercase;
 }
+
+/* --- Mobile Responsive Styles --- */
+
+@media (max-width: 768px) {
+    /* 1. Adjust Header Layout */
+    .main-header {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        flex-direction: column; /* Stack logo and search/tools */
+        gap: 10px;
+    }
+
+    .logo-container {
+        width: fit-content;
+        padding: 8px 12px;
+    }
+
+    .search-container {
+        width: 100%; /* Search takes full width on mobile */
+    }
+
+    .map-toolbar {
+        width: 100%;
+        justify-content: space-around; /* Spread buttons evenly */
+    }
+
+    /* 2. Transform Sidebar into a "Bottom Sheet" */
+    .sidebar {
+        top: auto; /* Remove top constraint */
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 50vh; /* Takes up bottom half of screen */
+        border-radius: 20px 20px 0 0; /* Rounded top corners only */
+        transform: translateY(100%); /* Hidden by default if you use JS toggle */
+        transition: transform 0.3s ease-out;
+    }
+
+    /* Use this class when sidebar is "open" on mobile */
+    .sidebar.mobile-open {
+        transform: translateY(0);
+        display: flex !important;
+    }
+
+    /* 3. Adjust Analysis Panel */
+    .analysis-panel {
+        top: auto;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        border-radius: 20px 20px 0 0;
+    }
+
+    /* 4. Improve touch targets */
+    .tool-btn {
+        width: 45px;
+        height: 45px;
+    }
+
+    .layer-item {
+        padding: 10px 0; /* Larger area for thumb tapping */
+    }
+}
