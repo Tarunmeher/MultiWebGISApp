@@ -60,13 +60,14 @@ function toggleBaseMap(targetElement, type) {
   }
 }
 
-
-
 var wmsLayers = [];
+const idDropdown = document.getElementById("idDropdown");
+var dropdownTemplate = "";
 loadWMSLayers(layerConfig.wmsLayers);
 function loadWMSLayers(wmsLayerInfo) {
   wmsLayerInfo.forEach((element) => {
     const layer = new ol.layer.Tile({
+      title:element.layerTitle,
       source: new ol.source.TileWMS({
         url: layerConfig.wmsURL,
         params: { LAYERS: element.layerName },
@@ -75,16 +76,16 @@ function loadWMSLayers(wmsLayerInfo) {
     });
     map.addLayer(layer);
     wmsLayers.push(layer);
-
+    dropdownTemplate+=`<option value="${element.layerTitle}">${element.layerTitle}</option>`
     const parentDiv = document.createElement("div");
-    parentDiv.classList.add("layer-item")
+    parentDiv.classList.add("layer-item");
     const inputElement = document.createElement("input");
-    inputElement.type="checkbox";
+    inputElement.type = "checkbox";
     inputElement.checked = element.visible;
-    inputElement.addEventListener("change", function(){      
-      if(this.checked){
+    inputElement.addEventListener("change", function () {
+      if (this.checked) {
         layer.setVisible(true);
-      }else{
+      } else {
         layer.setVisible(false);
       }
     });
@@ -94,5 +95,50 @@ function loadWMSLayers(wmsLayerInfo) {
     parentDiv.appendChild(label);
     document.getElementById(element.groupName).appendChild(parentDiv);
   });
+  idDropdown.innerHTML = dropdownTemplate;
 }
 
+
+map.on("singleclick", function (evt) {
+  let dropdownVal = idDropdown.value;
+  document.getElementById("heading").innerHTML = dropdownVal;
+  let currentSelectedLayer = null;
+  wmsLayers.forEach((item)=>{
+    if(dropdownVal == item.get("title")){
+      currentSelectedLayer = item;
+    }
+  })
+  var viewResolution = /** @type {number} */ (map.getView().getResolution());
+  
+  var url = currentSelectedLayer && currentSelectedLayer.getSource().getGetFeatureInfoUrl(
+    evt.coordinate,
+    viewResolution,
+    "EPSG:3857",
+    { INFO_FORMAT: "application/json" },
+  );
+  if (url) {
+    fetch(url).then(function(res){
+      if(res.ok){
+        res.json().then(function(data){
+          const thead = document.querySelector("#popup-content table thead");
+          const tbody = document.querySelector("#popup-content table tbody");
+          var properties = data.features[0].properties;
+          var theadTemplate = ['<tr>']
+          for(let field in properties){            
+           theadTemplate.push("<td>"+field+"</td>")
+          }
+          theadTemplate.push("</tr>");
+          thead.innerHTML = theadTemplate.join("");
+
+          var tbodyTemplate = ['<tr>']
+          for(let field in properties){            
+           tbodyTemplate.push("<td>"+properties[field]+"</td>");
+          }
+          tbodyTemplate.push("</tr>");
+          tbody.innerHTML = tbodyTemplate.join("");
+          overlay.setPosition(evt.coordinate);
+        })
+      }
+    })
+  }
+});
