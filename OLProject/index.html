@@ -11,6 +11,7 @@
     <!-- OpenLayers CSS -->
     <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/measure.css">
 </head>
 
 <body>
@@ -76,7 +77,7 @@
                 </div>
                 <span class="group-title">Vector Layers</span>
                 <div id="vectorlayer">
-                    
+
                 </div>
             </div>
 
@@ -94,8 +95,9 @@
             <h3>MAP ANALYSIS</h3>
         </div>
         <div class="sidebar-content">
-            <button class="analysis-item">📏 Measure Distance</button>
-            <button class="analysis-item">📐 Area Calculation</button>
+            <button class="analysis-item" type="button" onclick="addInteraction('length')">📏 Measure Distance</button>
+            <button class="analysis-item" type="button" onclick="addInteraction('area')">📐 Area Calculation</button>
+            <button type="button" onclick="addInteraction('')">Clear Measuremen</button>
             <button class="analysis-item">📍 Buffer Analysis</button>
         </div>
     </div>
@@ -135,11 +137,12 @@
     <script src="https://openlayers.org/en/v4.6.5/build/ol.js" type="text/javascript"></script>
 
     <script src="js/index.js" type="text/javascript"></script>
-    <script src="js/config.js" type="text/javascript"></script>    
+    <script src="js/config.js" type="text/javascript"></script>
     <script src="js/vector.js" type="text/javascript"></script>
     <script src="js/map.js" type="text/javascript"></script>
     <script src="js/highlightFeature.js" type="text/javascript"></script>
     <script src="js/popup.js" type="text/javascript"></script>
+    <script src="js/measure.js" type="text/javascript"></script>
 </body>
 
 </html>
